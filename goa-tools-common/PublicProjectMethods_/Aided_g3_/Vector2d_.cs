@@ -10,7 +10,6 @@ namespace PublicProjectMethods_
 {
     public static class Vector2d_
     {
-
         /// <summary>
         /// 判断一个点是否为点集的边界点
         /// </summary>
@@ -37,7 +36,9 @@ namespace PublicProjectMethods_
             else
                 return false;
         }
+
         #region 基于点创建四象限线圈
+
         public static List<Polygon2d> GetFourQuadrants(this Vector2d vector2d, double distance = 100.0)
         {
             Polygon2d polygon2d01 = GetFirstQuadrant(vector2d, distance);
@@ -82,12 +83,14 @@ namespace PublicProjectMethods_
 
             return new Polygon2d(new List<Vector2d>() { vector2d, vector2d + vector2d_LD, vector2d + vector2d_RD, vector2d + vector2d_RU });
         }
-        #endregion
+
+        #endregion 基于点创建四象限线圈
 
         public static bool OnPolygon2d(this Vector2d vector2d, Polygon2d polygon2d)
         {
             return polygon2d.Contains(vector2d);
         }
+
         public static bool InPolygon2d(this Vector2d vector2d, Polygon2d polygon2d)
         {
             //【】判断点是否落在多边形线段上
@@ -101,6 +104,7 @@ namespace PublicProjectMethods_
             }
             return polygon2d.Contains(vector2d);
         }
+
         public static Vector2d Rotate(this Vector2d _vector2d, Vector2d origin, double angle)
         {
             if (angle == 0) return _vector2d;
@@ -110,7 +114,7 @@ namespace PublicProjectMethods_
         }
 
         /// <summary>
-        /// 计算一个点到直线的垂直距离 
+        /// 计算一个点到直线的垂直距离
         /// </summary>
         public static double PedalDistanceToLine(this Vector2d tarVector2d, Vector2d origin, Vector2d _direction)
         {
@@ -118,14 +122,16 @@ namespace PublicProjectMethods_
             double dis = line2D.DistanceSquared(tarVector2d);
             return (double)Math.Sqrt(dis);
         }
+
         /// <summary>
-        /// 计算一个点到直线的垂直距离 
+        /// 计算一个点到直线的垂直距离
         /// </summary>
         public static double CalcPedalDistanceToLine(this Vector2d tarVector2d, Line2d line2D)
         {
             double dis = line2D.DistanceSquared(tarVector2d);
             return (double)Math.Sqrt(dis);
         }
+
         /// <summary>
         /// 计算vector2d到线段的垂线，如果垂足落在线段的延长线上，则垂线为目标点与线段端点的连线
         /// </summary>
@@ -144,6 +150,7 @@ namespace PublicProjectMethods_
                 return new Segment2d(p, P0);
             return new Segment2d(p, center + t * direcion);
         }
+
         /// <summary>
         /// 计算vector2d到直线的垂线，该方式基于向量方式
         /// </summary>
@@ -152,13 +159,15 @@ namespace PublicProjectMethods_
             Vector2d pedal = tarVector2d.Pedal(origin, _direction);
             return new Segment2d(tarVector2d, pedal);
         }
+
         /// <summary>
         /// vector2d到直线的垂线
         /// </summary>
         public static Segment2d PedalLine(this Vector2d tarVector2d, Line2d line2D)
         {
-            return tarVector2d.PedalLine(line2D.p0, line2D.Direction);
+            return tarVector2d.PedalLine(line2D.Origin, line2D.Direction);
         }
+
         /// <summary>
         /// 镜像点
         /// </summary>
@@ -167,12 +176,13 @@ namespace PublicProjectMethods_
             Vector2d pedal = tarVector2d.Pedal(origin, direction);
             return new Vector2d(2 * pedal.x - tarVector2d.x, 2 * pedal.y - tarVector2d.y);
         }
+
         /// <summary>
         /// 镜像点
         /// </summary>
         public static Vector2d Mirror(this Vector2d tarVector2d, Line2d line2d)
         {
-            Vector2d origin = line2d.p0;
+            Vector2d origin = line2d.Origin;
             Vector2d direction = line2d.Direction;
             Vector2d pedal = tarVector2d.Pedal(origin, direction);
             return new Vector2d(2 * pedal.x - tarVector2d.x, 2 * pedal.y - tarVector2d.y);
@@ -187,16 +197,18 @@ namespace PublicProjectMethods_
             double t = (tarVector2d - origin).Dot(direction);
             return origin + t * direction;
         }
+
         /// <summary>
         /// 计算vector2d到直线的垂足，该方式基于向量方式
         /// </summary>
         public static Vector2d CalcPedal(this Vector2d tarVector2d, Line2d line2d)
         {
-            Vector2d origin = line2d.p0;
+            Vector2d origin = line2d.Origin;
             Vector2d direction = line2d.Direction;
             double t = (tarVector2d - origin).Dot(direction);
             return origin + t * direction;
         }
+
         /// <summary>
         /// Vector2d 是否在 Vector2ds——点是否与点集中的某点距离为零
         /// </summary>
@@ -216,6 +228,7 @@ namespace PublicProjectMethods_
             }
             return isIn;
         }
+
         /// <summary>
         /// 去重——Revit中创建实体线的最短线段距离（the shortest distance 0.00256026455729167 foot * 304.8 = 0.7803686370624797 mm）
         /// </summary>
@@ -233,6 +246,7 @@ namespace PublicProjectMethods_
             }
             return _vector2ds;
         }
+
         /// <summary>
         /// 判断一个 Path_Vector2d 在不在 Paths_Vector2d
         /// </summary>
@@ -278,6 +292,7 @@ namespace PublicProjectMethods_
 
             return true;
         }
+
         /// <summary>
         /// 对 List Vector2d重新排序
         /// </summary>
@@ -297,9 +312,4 @@ namespace PublicProjectMethods_
             return vector2Ds;
         }
     }
-
-
-
-
-
 }

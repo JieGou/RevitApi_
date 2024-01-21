@@ -53,7 +53,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "工时计算", "工时计�
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wpf_Test", "Wpf_Test\Wpf_Test.csproj", "{397DF4FE-E884-4F9D-A247-D76641235CCC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "geometry3Sharp", "..\..\geometry3Sharp\geometry3Sharp.csproj", "{0C518DDA-28FE-44CA-9AB0-F9773974F13A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "geometry3Sharp", "..\..\..\geometry3Sharp\geometry3Sharp.csproj", "{0C518DDA-28FE-44CA-9AB0-F9773974F13A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonLittleCommands", "CommonLittleCommands\CommonLittleCommands.csproj", "{CD05F85B-4FBE-4687-9083-18DFF8A9B943}"
 EndProject

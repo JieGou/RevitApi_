@@ -1,0 +1,14 @@
+﻿################################################################################
+# 此 .gitignore 文件已由 Microsoft(R) Visual Studio 自动创建。
+################################################################################
+
+/.vs
+/goa-tools-common/goa.Common/app.config
+/goa-tools-common/goa.RevitUI/app.config
+/goa-tools-common/MODELESS_PROJECT_TEMPLATE/app.config
+/goa-tools-common/MODELESS_PROJECT_TEMPLATE_WPF/App.config
+/goa-tools-common/PublicProjectMethods_/App.config
+/__ tools 当前版本/Install.exe
+/__ tools 当前版本/Install.exe.config
+/__ tools 当前版本/Install.pdb
+/Test/Test/Test/obj/Release

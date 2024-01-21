@@ -17,7 +17,7 @@
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -40,16 +40,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdWindows">
-      <HintPath>..\Revit_API\2021\AdWindows.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\Revit 2021\AdWindows.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPI, Version=21.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RevitApi\RevitAPI.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\Revit 2021\RevitAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="RevitAPIUI, Version=21.0.0.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\RevitApi\RevitAPIUI.dll</HintPath>
+      <HintPath>C:\Program Files\Autodesk\Revit 2021\RevitAPIUI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -121,10 +122,6 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\geometry3Sharp\geometry3Sharp.csproj">
-      <Project>{0c518dda-28fe-44ca-9ab0-f9773974f13a}</Project>
-      <Name>geometry3Sharp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\goa.Common\goa.Common.csproj">
       <Project>{3b63163d-ce10-43a5-86c5-d5fb43e65ee9}</Project>
       <Name>goa.Common</Name>

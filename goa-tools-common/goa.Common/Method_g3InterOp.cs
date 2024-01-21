@@ -14,6 +14,7 @@ namespace goa.Common.g3InterOp
     public static class Method_g3Revit
     {
         #region plane & frame
+
         public static Frame3f ToFrame3f(this Plane _plane)
         {
             return new Frame3f
@@ -22,84 +23,115 @@ namespace goa.Common.g3InterOp
                 _plane.YVec.ToVector3f(),
                 _plane.Normal.ToVector3f());
         }
-        #endregion
+
+        public static Plane3d ToPlane3d(this Plane _plane)
+        {
+            return new Plane3d(_plane.Normal.ToVector3d(), _plane.Origin.ToVector3d());
+        }
+
+        public static Plane ToPlane(this Plane3d _plane)
+        {
+            throw new NotImplementedException();
+            //return Plane.CreateByNormalAndOrigin(_plane.Normal.ToXYZ(), _plane.Origin.ToVector3d());
+        }
+
+        #endregion plane & frame
 
         #region Vector
+
         public static Vector3d ToVector3d(this XYZ _xyz)
         {
             return new Vector3d(_xyz.X, _xyz.Y, _xyz.Z);
         }
+
         public static Vector3d ToVector3d(this Vector2d _xy)
         {
             return new Vector3d(_xy.x, _xy.y, 0);
         }
+
         public static Vector3f ToVector3f(this XYZ _xyz)
         {
             return new Vector3f(_xyz.X, _xyz.Y, _xyz.Z);
         }
+
         public static XYZ ToXYZ(this Vector3d _v)
         {
             return new XYZ(_v.x, _v.y, _v.z);
         }
+
         public static XYZ ToXYZ(this Vector3f _v)
         {
             return new XYZ(_v.x, _v.y, _v.z);
         }
+
         public static Vector2d ToVector2d(this UV _uv)
         {
             return new Vector2d(_uv.U, _uv.V);
         }
+
         public static UV ToUV(this Vector2d _v)
         {
             return new UV(_v.x, _v.y);
         }
-        #endregion
+
+        #endregion Vector
 
         #region BoundingBox
+
         public static AxisAlignedBox2d ToAABox2d(this BoundingBoxXYZ _bb, Plane3d _plane)
         {
             var min = _plane.ProjectInto(_bb.Min.ToVector3d());
             var max = _plane.ProjectInto(_bb.Max.ToVector3d());
             return new AxisAlignedBox2d(min, max);
         }
+
         public static AxisAlignedBox2d ToAABox2d(this BoundingBoxXYZ _bb, Frame3f _frame)
         {
             var min = _frame.ToPlaneUV((Vector3f)_bb.Min.ToVector3d(), 2);
             var max = _frame.ToPlaneUV((Vector3f)_bb.Max.ToVector3d(), 2);
             return new AxisAlignedBox2d(min, max);
         }
-        #endregion  
+
+        #endregion BoundingBox
 
         #region Line & Ray
+
         public static Segment2d ProjectIntoPlane(this Line _revitLine, Plane3d _p3d)
         {
             var inP0 = _p3d.ProjectInto(_revitLine.GetEndPoint(0).ToVector3d());
             var inP1 = _p3d.ProjectInto(_revitLine.GetEndPoint(1).ToVector3d());
             return new Segment2d(inP0, inP1);
         }
+
         public static Line ToLine(this Segment2d seg)
         {
             return Line.CreateBound(seg.P0.ToVector3d().ToXYZ(), seg.P1.ToVector3d().ToXYZ());
         }
+
         public static Line ToLine(this Segment3d seg)
         {
             return Line.CreateBound(seg.P0.ToXYZ(), seg.P1.ToXYZ());
         }
+
         public static Line ToLine(this Segment3f seg)
         {
             return Line.CreateBound(seg.P0.ToXYZ(), seg.P1.ToXYZ());
         }
+
         public static Segment3d ToSegment3d(this Line _l)
         {
             return new Segment3d(_l.GetEndPoint(0).ToVector3d(), _l.GetEndPoint(1).ToVector3d());
         }
+
         public static Segment3f ToSegment3f(this Line _l)
         {
             return new Segment3f(_l.GetEndPoint(0).ToVector3f(), _l.GetEndPoint(1).ToVector3f());
         }
-        #endregion
+
+        #endregion Line & Ray
 
         #region Triangle & Polygon
+
         public static List<Triangle3f> TriangulateG3(this Autodesk.Revit.DB.Face _face)
         {
             var mesh = _face.Triangulate();
@@ -116,6 +148,7 @@ namespace goa.Common.g3InterOp
             }
             return list;
         }
+
         public static List<Triangle3f> ToTriangles(this List<Face> _faces)
         {
             List<Triangle3f> list = new List<Triangle3f>();
@@ -123,11 +156,13 @@ namespace goa.Common.g3InterOp
                 list.AddRange(face.TriangulateG3());
             return list;
         }
+
         public static Polygon2d ToPolygon2d(this IEnumerable<UV> _list)
         {
             var points = _list.Select(x => x.ToVector2d());
             return new Polygon2d(points);
         }
+
         /// <summary>
         /// Assume curves are XY-plane-based. Tessellate curves by max angle of 10 degree.
         /// </summary>
@@ -135,6 +170,7 @@ namespace goa.Common.g3InterOp
         {
             return _curves.ToPolygon2d(10);
         }
+
         /// <summary>
         /// Assume curves are XY-plane-based. Tessellate curves by input max angle.
         /// </summary>
@@ -156,10 +192,12 @@ namespace goa.Common.g3InterOp
             var uvs = points.Select(x => x.ToUV());
             return uvs.ToPolygon2d();
         }
+
         public static IEnumerable<UV> ToUVList(this Polygon2d _polygon)
         {
             return _polygon.Vertices.Select(x => x.ToUV());
         }
+
         public static IEnumerable<Line> ToLines(this Polygon2d _polygon)
         {
             List<Line> lines = new List<Line>();
@@ -169,14 +207,17 @@ namespace goa.Common.g3InterOp
             }
             return lines;
         }
-        #endregion
+
+        #endregion Triangle & Polygon
     }
+
     public static class VectorToFloat
     {
         public static float[] convertToFloat(Vector3f _v)
         {
             return new float[3] { _v.x, _v.y, _v.z };
         }
+
         public static float[,] convertToFloat(Vector3f[] _input, int _size)
         {
             var array = new float[_size, 3];
@@ -189,12 +230,14 @@ namespace goa.Common.g3InterOp
             }
             return array;
         }
+
         public static float[] convertToFloatOneD(Vector3f[] _input, int _size)
         {
             var array = convertToFloat(_input, _size);
             var convert = convertToOneD(array);
             return convert;
         }
+
         public static float[,,] convertToFloat(Vector3f[,] _triangles, int _size)
         {
             var array = new float[_size, 3, 3];
@@ -210,12 +253,14 @@ namespace goa.Common.g3InterOp
             }
             return array;
         }
+
         public static float[] convertToFloatOneD(Vector3f[,] _triangles, int _size)
         {
             var array = convertToFloat(_triangles, _size);
             var convert = convertToOneD(array);
             return convert;
         }
+
         private static float[] convertToOneD(float[,] input)
         {
             var size0 = input.GetLength(0);

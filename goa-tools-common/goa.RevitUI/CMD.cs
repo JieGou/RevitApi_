@@ -14,9 +14,9 @@ using Autodesk.Revit.UI;
 using Autodesk.Revit.UI.Selection;
 using Autodesk.Revit.ApplicationServices;
 using Autodesk.Revit.Attributes;
-using goa.Common;
-using System.Windows;
 
+//using goa.Common;
+using System.Windows;
 
 namespace goa.RevitUI
 {
@@ -29,12 +29,14 @@ namespace goa.RevitUI
         public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
         {
             #region 与revit文档交互入口
+
             UIApplication uiapp = commandData.Application;
             UIDocument uidoc = commandData.Application.ActiveUIDocument;
             Document doc = uidoc.Document;
             Selection sel = uidoc.Selection;
             View acvtiView = doc.ActiveView;
-            #endregion
+
+            #endregion 与revit文档交互入口
 
             try
             {
@@ -54,7 +56,6 @@ namespace goa.RevitUI
                     //Methods.Copy(doc, elemIds);
                     //Methods.MirrorPick(doc, elemIds);
                     //Methods.Rotate(doc, elemIds);
-
                 }
 
                 return Result.Succeeded;
@@ -65,11 +66,9 @@ namespace goa.RevitUI
             }
             catch (Exception ex)
             {
-                goa.Common.UserMessages.ShowErrorMessage(ex, null);
+                //goa.Common.UserMessages.ShowErrorMessage(ex, null);
                 return Result.Failed;
             }
         }
-
-
     }
 }

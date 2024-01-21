@@ -10,6 +10,18 @@ namespace goa.Common
 {
     public static class Method_g3Extension
     {
+        //Note 未实现
+        public static Vector2d ProjectInto(this Plane3d _plane, Vector3d p)
+        {
+            throw new NotImplementedException();
+        }
+
+        //Note 未实现
+        public static Vector3d Evaluate(this Plane3d _plane, Vector2d vector2D)
+        {
+            throw new NotImplementedException();
+        }
+
         public static Segment3d OntoFrame(this Segment3d _seg3d, Frame3f _frame)
         {
             var seg3f = new Segment3f
@@ -17,6 +29,7 @@ namespace goa.Common
                 _frame.ToFrameP((Vector3f)_seg3d.P1));
             return new Segment3d(seg3f.P0, seg3f.P1);
         }
+
         public static Segment2d IntoFrame(this Segment3d _seg3d, Frame3f _frame)
         {
             var seg2f = new Segment2f
@@ -24,6 +37,7 @@ namespace goa.Common
                 _frame.ToPlaneUV((Vector3f)_seg3d.P1, 2));
             return new Segment2d(seg2f.P0, seg2f.P1);
         }
+
         public static Segment3d OutFrame(this Segment2d _seg2d, Frame3f _frame)
         {
             var seg3f = new Segment3f
@@ -31,6 +45,7 @@ namespace goa.Common
                 _frame.FromPlaneUV((Vector2f)_seg2d.P1, 2));
             return new Segment3d(seg3f.P0, seg3f.P1);
         }
+
         public static Segment2d Project(this Segment2d _host, Segment2d _seg)
         {
             //project each end point
@@ -44,10 +59,12 @@ namespace goa.Common
             var p1 = _host.PointAt(t1);
             return new Segment2d(p0, p1);
         }
+
         public static Segment3d Unproject(this Plane3d _plane, Segment2d _seg)
         {
             return new Segment3d(_plane.Evaluate(_seg.P0), _plane.Evaluate(_seg.P1));
         }
+
         public static Vector3f Rotate(this Vector3f _v, Vector3f _axis, float _deg)
         {
             Quaternionf ro = new Quaternionf(_axis, _deg);
@@ -64,6 +81,7 @@ namespace goa.Common
             var p3 = new Vector2d(_box.Min.x, _box.Max.y);
             return new Polygon2d(new List<Vector2d>() { p0, p1, p2, p3 });
         }
+
         /// <summary>
         /// Trim / split a segment by a polygon.
         /// </summary>

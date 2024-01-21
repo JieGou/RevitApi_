@@ -10,6 +10,7 @@ using Autodesk.Revit.UI.Selection;
 namespace goa.Common
 {
     #region Selection Filter
+
     public class CurveElementSelectionFilter : ISelectionFilter
     {
         public bool AllowElement(Element elem)
@@ -25,6 +26,7 @@ namespace goa.Common
             return false;
         }
     }
+
     public class FilledRegionSelectionFilter : ISelectionFilter
     {
         public bool AllowElement(Element elem)
@@ -40,6 +42,7 @@ namespace goa.Common
             return false;
         }
     }
+
     public class CurtainGridLineSelectionFilter : ISelectionFilter
     {
         public bool AllowElement(Element elem)
@@ -55,6 +58,7 @@ namespace goa.Common
             return false;
         }
     }
+
     public class CurtainPanelSelectionFilter : ISelectionFilter
     {
         public bool AllowElement(Element elem)
@@ -70,6 +74,7 @@ namespace goa.Common
             return false;
         }
     }
+
     public class LineElementSelectionFilter : ISelectionFilter
     {
         public bool AllowElement(Element elem)
@@ -82,6 +87,7 @@ namespace goa.Common
             }
             return false;
         }
+
         public bool AllowReference(Reference reference, XYZ position)
         {
             return false;
@@ -103,6 +109,7 @@ namespace goa.Common
             return false;
         }
     }
+
     public class FamilyLoadOptions : IFamilyLoadOptions
     {
         public bool OnFamilyFound(
@@ -124,6 +131,7 @@ namespace goa.Common
             return true;
         }
     }
+
     public class WallSelectionFilter : ISelectionFilter
     {
         public bool AllowElement(Element elem)
@@ -139,6 +147,7 @@ namespace goa.Common
             return false;
         }
     }
+
     public class WallStraightLineSelectionFilter : ISelectionFilter
     {
         public bool AllowElement(Element elem)
@@ -181,6 +190,7 @@ namespace goa.Common
             }
         }
     }
+
     public class FamilyInstanceSelectionFilter : ISelectionFilter
     {
         public bool AllowElement(Element elem)
@@ -200,6 +210,7 @@ namespace goa.Common
             return false;
         }
     }
+
     public class SitePlanFamilySelectionFilter : ISelectionFilter
     {
         public bool AllowElement(Element elem)
@@ -214,13 +225,16 @@ namespace goa.Common
             return false;
         }
     }
+
     public class PlanarFaceSelectionFilter : ISelectionFilter
     {
         private Document doc;
+
         public PlanarFaceSelectionFilter(Document _doc)
         {
             this.doc = _doc;
         }
+
         public bool AllowElement(Element elem)
         {
             return true;
@@ -237,10 +251,12 @@ namespace goa.Common
     public class StraightEdgeSelectionFilter : ISelectionFilter
     {
         private Document doc;
+
         public StraightEdgeSelectionFilter(Document _doc)
         {
             this.doc = _doc;
         }
+
         public bool AllowElement(Element elem)
         {
             return true;
@@ -259,5 +275,38 @@ namespace goa.Common
             }
         }
     }
-    #endregion
+
+    /// <summary>
+    /// 过滤器，详图项目下的族实例
+    /// </summary>
+    public class SelPickFilter_GenericAnnotation : ISelectionFilter
+    {
+        bool ISelectionFilter.AllowElement(Element elem)
+        {
+            if (elem.Category.Id.IntegerValue.Equals((int)BuiltInCategory.OST_GenericAnnotation))
+            {
+                if (elem is FamilyInstance)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+            //throw new NotImplementedException();
+        }
+
+        bool ISelectionFilter.AllowReference(Reference reference, XYZ position)
+        {
+            return false;
+            //throw new NotImplementedException();
+        }
+    }
+
+    #endregion Selection Filter
 }

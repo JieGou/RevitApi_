@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30717.126
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "goa.Common", "goa.Common\goa.Common.csproj", "{3B63163D-CE10-43A5-86C5-D5FB43E65EE9}"
 EndProject
@@ -48,13 +48,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Install", "Install\Install.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Install_Per_User", "Install_Per_User\Install_Per_User.csproj", "{2409D3C7-145D-4302-9714-9F86119EFB58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "geometry3Sharp", "..\..\geometry3Sharp\geometry3Sharp.csproj", "{0C518DDA-28FE-44CA-9AB0-F9773974F13A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "goa.RevitUI", "goa.RevitUI\goa.RevitUI.csproj", "{D41C3949-7F16-4272-BA55-A2E96FFE4C1F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MODELESS_PROJECT_TEMPLATE_WPF", "MODELESS_PROJECT_TEMPLATE_WPF\MODELESS_PROJECT_TEMPLATE_WPF.csproj", "{5FA7C4D0-3443-4E1E-BD44-E74B46400862}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PublicProjectMethods_", "PublicProjectMethods_\PublicProjectMethods_.csproj", "{391E1E0A-0D53-4518-A15A-7EA541053925}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "geometry3Sharp", "..\..\..\geometry3Sharp\geometry3Sharp.csproj", "{0C518DDA-28FE-44CA-9AB0-F9773974F13A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -124,18 +124,6 @@ Global
 		{2409D3C7-145D-4302-9714-9F86119EFB58}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2409D3C7-145D-4302-9714-9F86119EFB58}.Release|x86.ActiveCfg = Release|Any CPU
 		{2409D3C7-145D-4302-9714-9F86119EFB58}.Release|x86.Build.0 = Release|Any CPU
-		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.123|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.123|Any CPU.Build.0 = Debug|Any CPU
-		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.123|x86.ActiveCfg = Debug|Any CPU
-		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.123|x86.Build.0 = Debug|Any CPU
-		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Debug|x86.Build.0 = Debug|Any CPU
-		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Release|x86.ActiveCfg = Release|Any CPU
-		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Release|x86.Build.0 = Release|Any CPU
 		{D41C3949-7F16-4272-BA55-A2E96FFE4C1F}.123|Any CPU.ActiveCfg = Debug|Any CPU
 		{D41C3949-7F16-4272-BA55-A2E96FFE4C1F}.123|Any CPU.Build.0 = Debug|Any CPU
 		{D41C3949-7F16-4272-BA55-A2E96FFE4C1F}.123|x86.ActiveCfg = Debug|Any CPU
@@ -172,6 +160,18 @@ Global
 		{391E1E0A-0D53-4518-A15A-7EA541053925}.Release|Any CPU.Build.0 = Release|Any CPU
 		{391E1E0A-0D53-4518-A15A-7EA541053925}.Release|x86.ActiveCfg = Release|Any CPU
 		{391E1E0A-0D53-4518-A15A-7EA541053925}.Release|x86.Build.0 = Release|Any CPU
+		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.123|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.123|Any CPU.Build.0 = Debug|Any CPU
+		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.123|x86.ActiveCfg = Debug|Any CPU
+		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.123|x86.Build.0 = Debug|Any CPU
+		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Debug|x86.Build.0 = Debug|Any CPU
+		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Release|x86.ActiveCfg = Release|Any CPU
+		{0C518DDA-28FE-44CA-9AB0-F9773974F13A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

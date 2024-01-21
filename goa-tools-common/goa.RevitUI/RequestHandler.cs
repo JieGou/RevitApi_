@@ -6,15 +6,18 @@ using System.Threading.Tasks;
 using Autodesk.Revit.UI;
 using Autodesk.Revit.DB;
 using System.Threading;
-using goa.Common;
+
+//using goa.Common;
 
 namespace goa.RevitUI
 {
     public enum RequestId : int
     {
         None,
+
         //postCMD
         API_move,
+
         API_copy,
         API_rotate,
         API_mirrorPick,
@@ -24,16 +27,17 @@ namespace goa.RevitUI
         PostCmd_MirrorPick,
         PostCmd_MirrorDraw,
         PostCmd_Rotate,
-
     }
 
     public class Request
     {
         private int m_request = (int)RequestId.None;
+
         public RequestId Take()
         {
             return (RequestId)Interlocked.Exchange(ref m_request, (int)RequestId.None);
         }
+
         public void Make(RequestId request)
         {
             Interlocked.Exchange(ref m_request, (int)request);
@@ -43,7 +47,10 @@ namespace goa.RevitUI
     public class MainWindowRequestHandler : IExternalEventHandler
     {
         public Request Request = new Request();
-        public string GetName() { return "Overlapping Elements Clean Up Request Handler"; }
+
+        public string GetName()
+        { return "Overlapping Elements Clean Up Request Handler"; }
+
         public void Execute(UIApplication app)
         {
             Document doc = app.ActiveUIDocument.Document;
@@ -105,20 +112,16 @@ namespace goa.RevitUI
                             Methods.API_rotate(doc);
                             break;
                         }
-
-
                 }
             }
             catch (Autodesk.Revit.Exceptions.OperationCanceledException)
             {
                 return;
             }
-
             catch (Exception ex)
             {
-                goa.Common.UserMessages.ShowErrorMessage(ex, null);
+                //goa.Common.UserMessages.ShowErrorMessage(ex, null);
             }
-
             finally
             {
                 //window.WakeUp();

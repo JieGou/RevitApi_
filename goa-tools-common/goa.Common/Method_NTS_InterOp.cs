@@ -18,20 +18,23 @@ namespace goa.Common.NtsInterOp
         //before using NTS, otherwise all kinds of problems.
         //Default reduce to 0.00001
         private static PrecisionModel pm = new PrecisionModel(1e5); //0.00001
+
         private static GeometryFactory gf = new GeometryFactory(pm);
         private static GeometryPrecisionReducer gpr = new GeometryPrecisionReducer(pm);
+
         public static LineString ProjectInto(this Line _line, Plane _plane)
         {
             var p0proj = _plane.ProjectInto(_line.GetEndPoint(0));
             var p1proj = _plane.ProjectInto(_line.GetEndPoint(1));
-            var ls = new LineString(
-                new Coordinate[2]
-                {
-                p0proj.ToNtsCoord(),
-                p1proj.ToNtsCoord()
-                });
+            var ls = new LineString(new Coordinate[2] { p0proj.ToNtsCoord(), p1proj.ToNtsCoord() });
             return ls;
         }
+
+        /// <summary>
+        /// NetTopologySuite 几何体对象转换为Revit 直线列表
+        /// </summary>
+        /// <param name="_geo"></param>
+        /// <returns></returns>
         public static IList<Line> ToLines(this Geometry _geo)
         {
             IList<Line> list = null;
@@ -59,32 +62,74 @@ namespace goa.Common.NtsInterOp
             list = list.Where(x => x.Length.IsAlmostEqualByDifference(0) == false).ToList();
             return list;
         }
+
+        /// <summary>
+        /// Revit UV点转换为 NetTopologySuite 坐标点
+        /// </summary>
+        /// <param name="_uv"></param>
+        /// <returns></returns>
         public static Coordinate ToNtsCoord(this UV _uv)
         {
             return new Coordinate(_uv.U, _uv.V);
         }
+
+        /// <summary>
+        /// Revit XYZ点转换为 NetTopologySuite 坐标点
+        /// </summary>
+        /// <param name="_XYZ"></param>
+        /// <returns></returns>
         public static Coordinate ToNtsCoord(this XYZ _XYZ)
         {
             return new Coordinate(_XYZ.X, _XYZ.Y);
         }
+
+        /// <summary>
+        /// Revit XYZ点转换为NetTopologySuite Point
+        /// </summary>
+        /// <param name="_xyz"></param>
+        /// <returns></returns>
         public static NetTopologySuite.Geometries.Point ToNtsPoint(this XYZ _xyz)
         {
             return new NetTopologySuite.Geometries.Point(_xyz.ToNtsCoord());
         }
+
+        /// <summary>
+        /// NetTopologySuite 坐标点转换为 Revit XYZ
+        /// </summary>
+        /// <param name="_coord"></param>
+        /// <returns></returns>
         public static XYZ ToXYZ(this Coordinate _coord)
         {
             double z = double.IsNaN(_coord.Z) ? 0 : _coord.Z;
             return new XYZ(_coord.X, _coord.Y, z);
         }
+
+        /// <summary>
+        /// NetTopologySuite Point转换为 Revit XYZ
+        /// </summary>
+        /// <param name="_point"></param>
+        /// <returns></returns>
         public static XYZ ToXYZ(this NetTopologySuite.Geometries.Point _point)
         {
             double z = double.IsNaN(_point.Z) ? 0 : _point.Z;
             return new XYZ(_point.X, _point.Y, z);
         }
+
+        /// <summary>
+        /// NetTopologySuite 坐标点转换为Revit UV
+        /// </summary>
+        /// <param name="_coord"></param>
+        /// <returns></returns>
         public static UV ToUV(this Coordinate _coord)
         {
             return new UV(_coord.X, _coord.Y);
         }
+
+        /// <summary>
+        /// Revit直线转换为 NetTopologySuite<see cref="LineString"/>
+        /// </summary>
+        /// <param name="_line"></param>
+        /// <returns></returns>
         public static LineString ToNtsLineString(this Line _line)
         {
             var coords = new Coordinate[2]
@@ -96,6 +141,11 @@ namespace goa.Common.NtsInterOp
             return gpr.Reduce(ls) as LineString;
         }
 
+        /// <summary>
+        /// NetTopologySuite<see cref="LineString"/>转换为Revit 直线
+        /// </summary>
+        /// <param name="_ls"></param>
+        /// <returns></returns>
         public static Line ToLine(this LineString _ls)
         {
             var p0 = _ls.GetCoordinateN(0).ToXYZ();
@@ -109,6 +159,12 @@ namespace goa.Common.NtsInterOp
             }
             catch { return null; }
         }
+
+        /// <summary>
+        /// NetTopologySuite<see cref="LineString"/>转换为Revit 直线列表
+        /// </summary>
+        /// <param name="_ls"></param>
+        /// <returns></returns>
         public static IList<Line> ToLines(this LineString _ls)
         {
             var list = new List<Line>();
@@ -126,6 +182,7 @@ namespace goa.Common.NtsInterOp
             }
             return list;
         }
+
         public static CurveArray ToCurveArray(this LineString _ls)
         {
             var lines = _ls.ToLines();
@@ -134,6 +191,7 @@ namespace goa.Common.NtsInterOp
                 ca.Append(l);
             return ca;
         }
+
         public static IList<Line> ToLines(this MultiLineString _mls)
         {
             var list = new List<Line>();
@@ -147,6 +205,7 @@ namespace goa.Common.NtsInterOp
             }
             return list;
         }
+
         public static IList<Line> ToLines(this MultiPolygon _multiPoly)
         {
             var list = new List<Line>();
@@ -160,6 +219,7 @@ namespace goa.Common.NtsInterOp
             }
             return list;
         }
+
         public static IList<Line> ToLines(this Polygon poly)
         {
             var shell = poly.Shell.ToLines();
@@ -171,6 +231,7 @@ namespace goa.Common.NtsInterOp
             all.AddRange(interiorRings);
             return all;
         }
+
         public static Floor CreateFloor(this Polygon _polygon, Document _doc, Element _floorType, Level _level)
         {
             var shellLines = _polygon.Shell.ToLines();
@@ -181,6 +242,7 @@ namespace goa.Common.NtsInterOp
             floor.get_Parameter(BuiltInParameter.FLOOR_HEIGHTABOVELEVEL_PARAM).Set(0.0);
             return floor;
         }
+
         public static List<Opening> AddOpenings(this Polygon _polygon, Floor _floor)
         {
             var holesLines = _polygon.Holes.Select(x => x.ToLines());
@@ -201,6 +263,7 @@ namespace goa.Common.NtsInterOp
             }
             return list;
         }
+
         /// <summary>
         /// Get all solids' mesh vertices projection on XY plane.
         /// precission: 0.0 - 1.0.
@@ -211,15 +274,22 @@ namespace goa.Common.NtsInterOp
             var faces = solids.SelectMany(x => x.Faces.Cast<Face>());
             var meshes = faces.Select(x => x.Triangulate(_precision));
             var vertices = meshes.SelectMany(x => x.Vertices);
-            var coords = vertices.Select(x => x.ToNtsCoord());
+            var coords = vertices.Select(x => x.ToNtsCoord()).ToArray();
             var ch = new ConvexHull(coords, gf);
             var chGeom = ch.GetConvexHull();
             return chGeom;
         }
+
+        /// <summary>
+        /// NetTopologySuite<see cref="LinearRing"/>转换为Revit <see cref="CurveLoop"/>
+        /// </summary>
+        /// <param name="_ring"></param>
+        /// <returns></returns>
         public static CurveLoop ToCurveLoop(this LinearRing _ring)
         {
             return _ring.ToCurveLoop(Transform.Identity);
         }
+
         public static CurveLoop ToCurveLoop(this LinearRing _ring, Transform _tf)
         {
             var lines = _ring.ToLines();
@@ -230,6 +300,12 @@ namespace goa.Common.NtsInterOp
             }
             return cl;
         }
+
+        /// <summary>
+        /// Revit<see cref="CurveLoop"/>转换为NetTopologySuite <see cref="LinearRing"/>
+        /// </summary>
+        /// <param name="_cl"></param>
+        /// <returns></returns>
         public static LinearRing ToNtsLinearRing(this CurveLoop _cl)
         {
             var coords = new List<Coordinate>();
