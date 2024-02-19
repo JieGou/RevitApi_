@@ -187,8 +187,8 @@ namespace PublicProjectMethods_
         {
             Curve curveExt = wall.GetCurveExt();
             double wallThick = wall.GetWallThick();
-            Curve curve = curveExt.OffsetVector(wall.Orientation * wallThick * 4.0);
-            Curve curve2 = curveExt.OffsetVector(wall.Orientation * -(wallThick * 4.0));
+            Curve curve = curveExt.OffsetVector(wall.Orientation * wallThick * 0.5);
+            Curve curve2 = curveExt.OffsetVector(wall.Orientation * -(wallThick * 0.5));
             List<XYZ> list = new List<XYZ>();
             list.Add(curve.StartPoint());
             list.Add(curve.EndPoint());

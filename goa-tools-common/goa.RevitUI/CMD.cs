@@ -120,7 +120,7 @@ namespace goa.RevitUI
             MultiPoint multiPointGeometry = null/*gf.CreateMultiPoint(GeometryFactory.ToPointArray(ntsPointGeometries))*/;
             //Note 单纯使用点集会出现很多预料之外的结果
             //var concaveHull = ConcaveHull.ConcaveHullByLengthRatio(multiPointGeometry, 0.1);
-
+            //TODO 尝试先对多边形进行合并，之后再获取凹包
             MultiPolygon multiPolygon = gf.CreateMultiPolygon(polygons.ToArray()); ;
             //获取凹包
             //TODO 解决 Unable to find a convex corner 错误
