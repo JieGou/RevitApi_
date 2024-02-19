@@ -18,6 +18,7 @@ namespace goa.Common
     public static partial class Methods
     {
         #region Array
+
         public static T[] GetRow<T>(this T[,] array, int row)
         {
             if (!typeof(T).IsPrimitive)
@@ -42,14 +43,17 @@ namespace goa.Common
 
             return result;
         }
-        #endregion
+
+        #endregion Array
 
         #region Dictionary
+
         public static void AddRange<T>(this IList<T> list, IEnumerable<T> listToAdd)
         {
             foreach (var v in listToAdd)
                 list.Add(v);
         }
+
         public static void TryAddValue<T1, T2>(this Dictionary<T1, List<T2>> dic, T1 key, T2 value)
         {
             if (dic.ContainsKey(key))
@@ -61,6 +65,7 @@ namespace goa.Common
                 dic[key] = new List<T2>() { value };
             }
         }
+
         public static void RenameKey<TKey, TValue>(this IDictionary<TKey, TValue> dic,
                                       TKey fromKey, TKey toKey)
         {
@@ -68,9 +73,11 @@ namespace goa.Common
             dic.Remove(fromKey);
             dic[toKey] = value;
         }
-        #endregion
 
-        #region Double         
+        #endregion Dictionary
+
+        #region Double
+
         /// <summary>
         /// Compare two double values, using
         /// first value * scale as precision threshold.
@@ -87,6 +94,7 @@ namespace goa.Common
             else
                 return true;
         }
+
         public static bool IsAlmostEqualByDifference
             (this double _thisDouble, double _double, double _epsilon)
         {
@@ -96,6 +104,7 @@ namespace goa.Common
             else
                 return true;
         }
+
         public static bool IsAlmostEqualByDifference
     (this float _thisFloat, float _float, float _epsilon)
         {
@@ -117,10 +126,12 @@ namespace goa.Common
         {
             return _thisDouble.IsAlmostEqualByDifference(_double, 0.0001);
         }
+
         public static bool IsAlmostEqualByDifference(this float _thisFloat, float _float)
         {
             return _thisFloat.IsAlmostEqualByDifference(_float, 0.0001f);
         }
+
         /// <summary>
         /// Compare two double values, using
         /// first value * 0.0001 as precision threshold.
@@ -132,21 +143,26 @@ namespace goa.Common
         {
             return _thisDouble.IsAlmostEqualByScale(_double, 0.0001);
         }
+
         public static string ToStringDigits(this double _d, int _digits)
         {
             return Math.Round(_d, _digits).ToString();
         }
-        #endregion
+
+        #endregion Double
 
         #region Exception
+
         public static void ReThrow(this Exception ex)
         {
             var exInfo = ExceptionDispatchInfo.Capture(ex);
             exInfo.Throw();
         }
-        #endregion
+
+        #endregion Exception
 
         #region FileIO
+
         public static void SaveByDialog(object _objectToSave, string _filterString, string _defaultFileName)
         {
             //get file path to save to
@@ -163,6 +179,7 @@ namespace goa.Common
             string filename = saveFileDialog1.FileName;
             Save(_objectToSave, filename, true);
         }
+
         public static T LoadByDialog<T>(string _filterString)
         {
             //get file path to load from
@@ -177,6 +194,7 @@ namespace goa.Common
             string filename = dialog.FileName;
             return Load<T>(filename, true);
         }
+
         public static T Load<T>(string _filePath, bool _showErrorMessage)
         {
             T loadedObject = default(T);
@@ -195,7 +213,7 @@ namespace goa.Common
             {
                 loadedObject = (T)formatter.Deserialize(fs);
                 //deserialize could throw "unable to find assembly"
-                //exception when using addin manager. Goes away when 
+                //exception when using addin manager. Goes away when
                 //loaded in Revit.
             }
             catch (Exception ex)
@@ -210,6 +228,7 @@ namespace goa.Common
             }
             return loadedObject;
         }
+
         public static bool Save(object _object, string _filePath, bool _showError)
         {
             System.IO.FileStream fs = new FileStream(_filePath, FileMode.Create);
@@ -230,13 +249,16 @@ namespace goa.Common
                 fs.Close();
             }
         }
+
         public static void CreateEmptyFile(string filename)
         {
             File.Create(filename).Dispose();
         }
-        #endregion
+
+        #endregion FileIO
 
         #region Enumerables
+
         public static List<List<T>> DivideList<T>(this List<T> _input, int _targetNum)
         {
             int count = _input.Count;
@@ -257,6 +279,7 @@ namespace goa.Common
             lists.Add(_input.GetRange(index, numLeft));
             return lists;
         }
+
         public static List<Dictionary<T1, T2>> DivideDictionay<T1, T2>(this Dictionary<T1, T2> _input, int _targetNum)
         {
             int count = _input.Count;
@@ -312,6 +335,7 @@ namespace goa.Common
 
             return newArray;
         }
+
         public static T[] ShiftRight<T>(this T[] array, int shifts, bool loopback = true)
         {
             int count = array.Count();
@@ -334,23 +358,32 @@ namespace goa.Common
             }
             return newArray;
         }
+
         public static HashSet<T> ToHashSet<T>(this IEnumerable<T> _enum)
         {
             return new HashSet<T>(_enum);
         }
 
-        #endregion
+        public static IEnumerable<T> Append<T>(this IEnumerable<T> ts, params T[] moreTs)
+        {
+            return ts.Concat(moreTs);
+        }
+
+        #endregion Enumerables
 
         #region Math
+
         public static IEnumerable<IEnumerable<T>> Combinations<T>(this IEnumerable<T> elements, int k)
         {
             return k == 0 ? new[] { new T[0] } :
               elements.SelectMany((e, i) =>
                 elements.Skip(i + 1).Combinations(k - 1).Select(c => (new[] { e }).Concat(c)));
         }
-        #endregion
+
+        #endregion Math
 
         #region String
+
         public static bool ToBoolean(this string _string)
         {
             var trueList = new string[] { "True", "Yes", "1", "是" };
@@ -362,6 +395,7 @@ namespace goa.Common
             else
                 throw new FormatException("Failed to convert \"" + _string + "\" to boolean value.");
         }
+
         public static string RemoveAll(this string _string, params string[] _removeList)
         {
             string output = _string;
@@ -371,17 +405,21 @@ namespace goa.Common
             }
             return output;
         }
+
         public static string[] SplitBy(this string _s, string _spliter)
         {
             var sep = new string[1] { _spliter };
             var array = _s.Split(sep, StringSplitOptions.RemoveEmptyEntries);
             return array;
         }
+
         private static string puncs = ",./<>?;':\"[]{}\\|-_=+)(*&^%$#@!`~，。《》【】、‘“”’·！￥…（）";
+
         public static string RemoveAllPunctuationMarks(this string _s)
         {
             return _s.RemoveAll(puncs);
         }
+
         public static string RemovePunctuationMarksAtStartAndEnd(this string _s)
         {
             List<int> indices = new List<int>();
@@ -409,10 +447,14 @@ namespace goa.Common
             }
             return new string(newString.ToArray());
         }
-        #endregion
+
+        #endregion String
 
         #region DateTime
-        public enum eRoundingDirection { up, down, nearest }
+
+        public enum eRoundingDirection
+        { up, down, nearest }
+
         public static DateTime RoundDateTime(this DateTime dt, int minutes)
 
         {
@@ -431,6 +473,7 @@ namespace goa.Common
             return DateTime.MinValue.Add(new TimeSpan(0,
                    (((int)t.TotalMinutes) / minutes) * minutes, 0));
         }
+
         public static DateTime RoundDateTimeToMinute(this DateTime dt)
         {
             var newTime = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, dt.Minute, 0);
@@ -439,7 +482,7 @@ namespace goa.Common
             else
                 return newTime.AddMinutes(1);
         }
-        #endregion
 
+        #endregion DateTime
     }
 }

@@ -15,7 +15,6 @@ namespace PublicProjectMethods_
 
     public static class Polygon2d_
     {
-
         public static int AngleNum(this Polygon2d polygon2d, double tarAngle = 90)
         {
             int angleCount = 0;
@@ -28,6 +27,7 @@ namespace PublicProjectMethods_
             }
             return angleCount;
         }
+
         /// <summary>
         /// 线圈是否为三角形
         /// </summary>
@@ -92,6 +92,7 @@ namespace PublicProjectMethods_
             }
             return false;
         }
+
         /// <summary>
         /// 线圈是否为梯形 ——原则：四个角点，一对平行边
         /// </summary>
@@ -130,6 +131,7 @@ namespace PublicProjectMethods_
 
             return false;
         }
+
         /// <summary>
         /// 线圈是否为矩形
         /// </summary>
@@ -150,6 +152,7 @@ namespace PublicProjectMethods_
             }
             return true;
         }
+
         /// <summary>
         /// 旋转Polygon2d
         /// </summary>
@@ -161,6 +164,7 @@ namespace PublicProjectMethods_
                 yield return item.Rotate(origin, angle);
             }
         }
+
         /// <summary>
         /// 旋转Polygon2d
         /// </summary>
@@ -172,6 +176,7 @@ namespace PublicProjectMethods_
             Polygon2d _polygon2D = new Polygon2d(polygon2d);// 避免自身图形被修改
             return _polygon2D.Rotate(rotationTransform, origin);
         }
+
         /// <summary>
         /// 镜像 polygon
         /// </summary>
@@ -182,9 +187,9 @@ namespace PublicProjectMethods_
                 yield return item.Mirror(origin, direction);
             }
         }
+
         /// <summary>
         /// 镜像 polygon
-        /// </summary>
         /// </summary>
         /// <returns></returns>
         public static Polygon2d Mirror(this Polygon2d polygon2D, Vector2d origin, Vector2d direction)
@@ -195,6 +200,7 @@ namespace PublicProjectMethods_
                 vertices[i] = vertices[i].Mirror(origin, direction);
             return new Polygon2d(vertices);
         }
+
         /// <summary>
         /// 删除多边形的尖角 删除共线的点
         /// </summary>
@@ -224,6 +230,7 @@ namespace PublicProjectMethods_
         {
             return new Polygon2d(polygon2d.Vertices.DelDuplicate());
         }
+
         /// <summary>
         /// polygon向外偏移-创建新的线圈实例
         /// </summary>
@@ -244,6 +251,7 @@ namespace PublicProjectMethods_
             Paths paths = path.Offset(offsetDistane, Precision_.clipperMultiple, EndType.etClosedLine);
             return paths.ToPolygon2ds().OrderBy(p => p.Area).Last();
         }
+
         /// <summary>
         /// polygon向内偏移-创建新的线圈实例
         /// </summary>
@@ -264,6 +272,7 @@ namespace PublicProjectMethods_
             Paths paths = path.Offset(offsetDistane, Precision_.clipperMultiple, EndType.etClosedLine);
             return paths.ToPolygon2ds().OrderBy(p => p.Area).First();
         }
+
         /// <summary>
         /// 对比两个polygon是否相同
         /// </summary>
@@ -274,6 +283,7 @@ namespace PublicProjectMethods_
 
             return vector2ds01.IsSame(vector2ds02);
         }
+
         /// <summary>
         /// 找到线圈北侧的点
         /// </summary>
@@ -298,8 +308,8 @@ namespace PublicProjectMethods_
             // 所有线圈遵循逆时针模式
             int length = leftUpIndex - rightUpIndex + 1;
             return path_Vector2d.GetRange(rightUpIndex, length);
-
         }
+
         /// <summary>
         /// 找到线圈南侧的点
         /// </summary>
@@ -323,8 +333,8 @@ namespace PublicProjectMethods_
 
             int length = rightDownIndex - leftDownIndex + 1;
             return path_Vector2d.GetRange(leftDownIndex, length);
-
         }
+
         /// <summary>
         /// 求出线圈点集中最上最右的那个点
         /// </summary>
@@ -336,6 +346,7 @@ namespace PublicProjectMethods_
             vector2ds = vector2ds.Where(p => p.y.EqualPrecision(maxUpVector2d.y)).ToList();
             return vector2ds.OrderBy(p => p.x).ToList().Last();
         }
+
         /// <summary>
         /// 求出线圈点集中最上最左的那个点
         /// </summary>
@@ -347,6 +358,7 @@ namespace PublicProjectMethods_
             vector2ds = vector2ds.Where(p => p.y.EqualPrecision(maUpVector2d.y)).ToList();
             return vector2ds.OrderBy(p => p.x).ToList().First();
         }
+
         /// <summary>
         /// 求出线圈点集中最下最左的那个点
         /// </summary>
@@ -358,6 +370,7 @@ namespace PublicProjectMethods_
             vector2ds = vector2ds.Where(p => p.y.EqualPrecision(maxDownVector2d.y)).ToList();
             return vector2ds.OrderBy(p => p.x).ToList().First();
         }
+
         /// <summary>
         /// 求出线圈点集中最下最右的那个点
         /// </summary>
@@ -370,6 +383,7 @@ namespace PublicProjectMethods_
             vector2ds = vector2ds.Where(p => p.y.EqualPrecision(maxDownVector2d.y)).ToList();
             return vector2ds.OrderBy(p => p.x).ToList().Last();
         }
+
         /// <summary>
         /// 基于线圈上的一个点，对polygon2d的点集进行重新排序
         /// </summary>
@@ -379,6 +393,7 @@ namespace PublicProjectMethods_
             vector2ds = vector2ds.ReSortPolygon2dByPoint(_cp);
             return new Polygon2d(vector2ds);
         }
+
         /// <summary>
         /// 线圈所在外包矩形 左下角点
         /// </summary>
@@ -387,6 +402,7 @@ namespace PublicProjectMethods_
         {
             return polygon2d.BoundingRectangle().Vertices[3];
         }
+
         /// <summary>
         /// 线圈所在外包矩形 左下角点
         /// </summary>
@@ -395,6 +411,7 @@ namespace PublicProjectMethods_
         {
             return polygon2d.BoundingRectangle().Vertices[2];
         }
+
         /// <summary>
         /// 线圈所在外包矩形 右下角点
         /// </summary>
@@ -403,6 +420,7 @@ namespace PublicProjectMethods_
         {
             return polygon2d.BoundingRectangle().Vertices[1];
         }
+
         /// <summary>
         /// 线圈所在外包矩形 左下角点
         /// </summary>
@@ -416,7 +434,7 @@ namespace PublicProjectMethods_
         /// 线圈所在外包矩形
         /// </summary>
         /// <returns></returns>
-        static public Polygon2d BoundingRectangle(this Polygon2d polygon2d)
+        public static Polygon2d BoundingRectangle(this Polygon2d polygon2d)
         {
             //【】下方注释方法的时间需要进行测试
             //Box2d box2D = polygon2d.MinimalBoundingBox(double epsilon)
@@ -427,21 +445,23 @@ namespace PublicProjectMethods_
 
             return Polygon2d.MakeRectangle(center, wight, height);
         }
+
         /// <summary>
         /// 线圈所在外包矩形的形心
         /// </summary>
         /// <returns></returns>
-        static public Vector2d Center(this Polygon2d polygon2d)
+        public static Vector2d Center(this Polygon2d polygon2d)
         {
             double wight = 0;
             double height = 0;
             return polygon2d.Center(ref wight, ref height);
         }
+
         /// <summary>
         /// 线圈所在外包矩形的高度
         /// </summary>
         /// <returns></returns>
-        static public double Height(this Polygon2d polygon2d)
+        public static double Height(this Polygon2d polygon2d)
         {
             IEnumerable<Vector2d> vector2ds = polygon2d.Vertices;
             if (vector2ds.Count() < 3)
@@ -452,11 +472,12 @@ namespace PublicProjectMethods_
 
             return maxYpoint.y - minYpoint.y;
         }
+
         /// <summary>
         /// 线圈所在外包矩形的宽度
         /// </summary>
         /// <returns></returns>
-        static public double Width(this Polygon2d polygon2d)
+        public static double Width(this Polygon2d polygon2d)
         {
             IEnumerable<Vector2d> vector2ds = polygon2d.Vertices;
             if (vector2ds.Count() < 3)
@@ -468,20 +489,22 @@ namespace PublicProjectMethods_
 
             return maxXpoint.x - minXpoint.x;
         }
+
         /// <summary>
         /// 线圈所在外包矩形的形心
         /// </summary>
         /// <returns></returns>
-        static public Vector2d Center(this Polygon2d polygon2d, ref double wight, ref double height)
+        public static Vector2d Center(this Polygon2d polygon2d, ref double wight, ref double height)
         {
             IEnumerable<Vector2d> vector2ds = polygon2d.Vertices;
             return vector2ds.Center(ref wight, ref height);
         }
+
         /// <summary>
         /// 线圈所在外包矩形的形心
         /// </summary>
         /// <returns></returns>
-        static public Vector2d Center(this IEnumerable<Vector2d> vector2ds, ref double wight, ref double height)
+        public static Vector2d Center(this IEnumerable<Vector2d> vector2ds, ref double wight, ref double height)
         {
             if (vector2ds.Count() < 3)
             {

@@ -63,9 +63,22 @@
       <Project>{0c518dda-28fe-44ca-9ab0-f9773974f13a}</Project>
       <Name>geometry3Sharp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\goa.Common\goa.Common.csproj">
+      <Project>{3B63163D-CE10-43A5-86C5-D5FB43E65EE9}</Project>
+      <Name>goa.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PublicProjectMethods_\PublicProjectMethods_.csproj">
+      <Project>{391e1e0a-0d53-4518-a15a-7ea541053925}</Project>
+      <Name>PublicProjectMethods_</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="NetTopologySuite">
+      <Version>2.5.0</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
