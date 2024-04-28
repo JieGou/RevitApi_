@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 using Autodesk.Revit.DB;
+using Autodesk.Revit.UI;
 using ClipperLib;
 using g3;
 using goa.Common;
@@ -196,6 +197,47 @@ namespace PublicProjectMethods_
             list.Add(curve2.EndPoint());
             list.SortCounterClockwise();
             return list.GetCurveLoop();
+        }
+
+        public static PlanarFace GetWallBottomFace(this Wall wall, UIApplication app)
+        {
+            var opt = app.Application.Create.NewGeometryOptions();
+            var e = wall.get_Geometry(opt);
+            const double _tolerance = 0.001;
+            foreach (var obj in e)
+            {
+                var solid = obj as Solid;
+                if (null == solid) continue;
+                foreach (Face face in solid.Faces)
+                {
+                    var pf = face as PlanarFace;
+                    if (null == pf) continue;
+                    if (pf.FaceNormal.IsVertical( _tolerance) && pf.FaceNormal.Z < 0)
+                    {
+                        return pf;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 获取墙的底部轮廓
+        /// </summary>
+        /// <param name="wall"></param>
+        /// <param name="uiapp"></param>
+        /// <returns></returns>
+        public static List<CurveLoop> GetWallBottomProfile(this Wall wall, UIApplication uiapp)
+        {
+            var profiles = new List<CurveLoop>();
+            if (wall == null) return profiles;
+            var planarFace=wall.GetWallBottomFace(uiapp);
+            if (planarFace == null) return profiles;
+
+            //墙的底部截面profile
+            profiles = planarFace.GetEdgesAsCurveLoops().ToList();
+
+            return profiles;
         }
 
         /// <summary>
