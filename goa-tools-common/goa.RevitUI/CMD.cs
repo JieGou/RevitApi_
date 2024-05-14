@@ -148,4 +148,56 @@ namespace goa.RevitUI
             return Result.Succeeded;
         }
     }
+
+    /// <summary>
+    /// 测试获取obb
+    /// </summary>
+    [Transaction(TransactionMode.Manual)]
+    [Regeneration(RegenerationOption.Manual)]
+    public class CmdObb : IExternalCommand
+    {
+        public Result Execute(ExternalCommandData commandData, ref string message, ElementSet elements)
+        {
+            var uiapp = commandData.Application;
+            var app = uiapp.Application;
+            var uidoc = uiapp.ActiveUIDocument;
+            var doc = uidoc.Document;
+            var sel = uidoc.Selection;
+            var pickrefs = sel.PickObjects(ObjectType.Element, new WallSelectionFilter(), "选择墙");
+
+            var wallList = pickrefs.Select(x => doc.GetElement(x) as Wall).ToList();
+            var wallSectionCurves = wallList.Select(w => w.GetPlaneBorders()).ToList();
+
+            var polygons = wallSectionCurves.Select(curves => curves.ToPolygon2d().ToPolygon()).ToList();
+
+            var gs = NtsGeometryServices.Instance;
+            var gf = gs.CreateGeometryFactory();
+
+            MultiPolygon multiPolygon = gf.CreateMultiPolygon(polygons.ToArray()); ;
+            //TODO 改造为凸包 一堆碎线得到凸包
+            var concaveHull = ConcaveHullOfPolygons.ConcaveHullByLength(multiPolygon, 1d/*, true, false*/);
+            List<Line> lines = concaveHull.ToLines().ToList();
+            var obb = lines.GetOrientedBoundingBox().ToList();
+
+            using (Transaction trans = new Transaction(doc, "debug"))
+            {
+                trans.Start();
+
+                foreach (var line in obb)
+                {
+                    try
+                    {
+                        var detailLine = doc.Create.NewDetailCurve(doc.ActiveView, line);
+                    }
+                    catch (Exception)
+                    {
+                        continue;
+                    }
+                }
+
+                trans.Commit();
+            }
+            return Result.Succeeded;
+        }
+    }
 }

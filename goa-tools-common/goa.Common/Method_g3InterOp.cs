@@ -298,5 +298,20 @@ namespace goa.Common.g3InterOp
             }
             return a;
         }
+
+        /// <summary>
+        /// 求曲线的最小外包矩形OBB
+        /// </summary>
+        /// <param name="curves">曲线列表</param>
+        /// <returns></returns>
+        public static IEnumerable<Line> GetOrientedBoundingBox(this IEnumerable<Curve> curves)
+        {
+            //转换为多边形 圆弧采用1度离散化
+            var poly2d = curves.ToPolygon2d(1);
+            var box2d = poly2d.MinimalBoundingBox(0.0001);
+            Vector2d[] vectorArray = box2d.ComputeVertices();
+            var obbPoly2d = new Polygon2d(vectorArray);
+            return obbPoly2d.ToLines();
+        }
     }
 }
