@@ -90,5 +90,25 @@ namespace PublicProjectMethods_
         }
 
         #endregion NetTopologySuiteTo_
+
+        public static bool IsVertical(this XYZ v, double tolerance)
+        {
+            return IsZero(v.X, tolerance) && IsZero(v.Y, tolerance);
+        }
+        /// <summary>
+        ///     Predicate to determine whether the given
+        ///     real number should be considered equal to
+        ///     zero, adding fuzz according to the specified
+        ///     tolerance
+        /// </summary>
+        public static bool IsZero(double a, double tolerance = _eps)
+        {
+            return tolerance > Math.Abs(a);
+        }
+        /// <summary>
+        ///     Default tolerance used to add fuzz
+        ///     for real number equality detection
+        /// </summary>
+        public const double _eps = 1.0e-9;
     }
 }

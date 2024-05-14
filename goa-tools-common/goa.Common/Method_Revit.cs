@@ -3644,6 +3644,15 @@ namespace goa.Common
         {
             return UnitUtils.ConvertFromInternalUnits(_feet, DisplayUnitType.DUT_MILLIMETERS);
         }
+        /// <summary>
+        /// 转平方米
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static double FromApiToSquareM(this double value)
+        {
+            return UnitUtils.ConvertFromInternalUnits( value, DisplayUnitType.DUT_SQUARE_METERS);
+        }
         public static double MillimeterStringToFeet(this string s)
         {
             double dist;
