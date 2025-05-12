@@ -179,6 +179,9 @@ namespace PublicProjectMethods_
 
     public static class WallExtend
     {
+        //TODO 优化，两墙端点不连接时没问题，但如果端点连接，需要优化
+        //<image url="$(projectDir)\DocumentImages\墙端点不允许连接.png"/>
+        //<image url="$(projectDir)\DocumentImages\墙端点允许连接.png"/>
         /// <summary>
         /// 获取墙体在平面的轮廓（以LocationCurve为基准长度）
         /// </summary>

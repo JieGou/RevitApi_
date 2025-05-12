@@ -209,10 +209,9 @@ namespace goa.RevitUI
             var gs = NtsGeometryServices.Instance;
             var gf = gs.CreateGeometryFactory();
 
-            MultiPolygon multiPolygon = gf.CreateMultiPolygon(polygons.ToArray()); ;
-            //TODO 改造为凸包 一堆碎线得到凸包
-            var concaveHull = ConcaveHullOfPolygons.ConcaveHullByLength(multiPolygon, 1d/*, true, false*/);
-            List<Line> lines = concaveHull.ToLines().ToList();
+            MultiPolygon multiPolygon = gf.CreateMultiPolygon(polygons.ToArray()); //如果线 可以直接创建 CreateMultiLineString
+            var convexHull = multiPolygon.ConvexHull();
+            List<Line> lines = convexHull.ToLines().ToList();
             var obb = lines.GetOrientedBoundingBox().ToList();
 
             using (Transaction trans = new Transaction(doc, "debug"))
